@@ -23,10 +23,12 @@ public class Credits : MonoBehaviour
         Application.Quit();
     }
 
+
+
     public void DeleteAll()
     {
         PlayerPrefs.DeleteAll();
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
-
 
 }

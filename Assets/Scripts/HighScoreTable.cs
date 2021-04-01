@@ -1,7 +1,10 @@
-﻿using System.Collections;
+﻿// word dropper
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using CodeMonkey.Utils;
 
 public class HighScoreTable : MonoBehaviour
 {
@@ -16,8 +19,6 @@ public class HighScoreTable : MonoBehaviour
 
         entryTemplate.gameObject.SetActive(false);
         
-        AddHighscoreEntry(Score.CurrentScore, Name.username);
-
         string jsonString = PlayerPrefs.GetString("highscoreTable");
         Highscores highscores = JsonUtility.FromJson<Highscores>(jsonString);
 
@@ -46,7 +47,7 @@ public class HighScoreTable : MonoBehaviour
 
     private void CreateHighscoreEntryTransform(HighscoreEntry highscoreEntry, Transform container, List<Transform> transformList)
     {
-        float templateHeight = 18f;
+        float templateHeight = 30f;
         Transform entryTransform = Instantiate(entryTemplate, container);
         RectTransform entryRectTransform = entryTransform.GetComponent<RectTransform>();
         entryRectTransform.anchoredPosition = new Vector2(0, -templateHeight * transformList.Count);
@@ -78,6 +79,37 @@ public class HighScoreTable : MonoBehaviour
         string name = highscoreEntry.name;
         entryTransform.Find("nameText").GetComponent<Text>().text = name;
 
+        // Set background visible odds and evens 
+        /*
+        if (rank == 1)
+        {
+            entryTransform.Find("background").gameObject.SetActive(true);
+        }*/
+        entryTransform.Find("background").gameObject.SetActive(rank % 2 == 1);
+
+        if (rank == 1)
+        {
+            entryTransform.Find("nameText").GetComponent<Text>().color = Color.green;
+            entryTransform.Find("rankText").GetComponent<Text>().color = Color.green;
+            entryTransform.Find("scoreText").GetComponent<Text>().color = Color.green;
+        }
+        
+        switch(rank)
+        {
+            default:
+                entryTransform.Find("trophy").gameObject.SetActive(false);
+                break;
+            case 1:
+                entryTransform.Find("trophy").GetComponent<Image>().color = UtilsClass.GetColorFromString("FFD200");
+                break;
+            case 2:
+                entryTransform.Find("trophy").GetComponent<Image>().color = UtilsClass.GetColorFromString("C6C6C6");
+                break;
+            case 3:
+                entryTransform.Find("trophy").GetComponent<Image>().color = UtilsClass.GetColorFromString("B76F56");
+                break;
+        }
+
         transformList.Add(entryTransform);
     }
 
@@ -100,14 +132,27 @@ public class HighScoreTable : MonoBehaviour
         }
 
         // Add new entry to Highscores
-        if (highscores.highscoreEntryList.Count < 10) { 
+        if (highscores.highscoreEntryList.Count > 8)
+        {
+            highscores.highscoreEntryList.RemoveAt(9);
             highscores.highscoreEntryList.Add(highscoreEntry);
         }
 
+        else if (highscores.highscoreEntryList.Count < 9) { 
+            highscores.highscoreEntryList.Add(highscoreEntry);
+        }
+
+        
         // Save updated Highscores
         string json = JsonUtility.ToJson(highscores);
         PlayerPrefs.SetString("highscoreTable", json);
         PlayerPrefs.Save();
+    }
+
+    public void SaveScore()
+    {
+        AddHighscoreEntry(Score.CurrentScore, Name.username);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     private class Highscores
