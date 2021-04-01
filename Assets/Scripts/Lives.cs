@@ -11,13 +11,19 @@ public class Lives : MonoBehaviour
     void Start()
     {
         
+        
+        livesText.text = "Lives: " + ChooseNumLives.numLives.ToString(); 
+
+    }
+
+    void Update()
+    {
+        livesText.text = "Lives: " + ChooseNumLives.numLives.ToString();
         if (ChooseNumLives.numLives < 1)
         {
             Debug.Log("GAME OVER");
             SceneManager.LoadScene("Credits");
         }
-        livesText.text = "Lives: " + ChooseNumLives.numLives.ToString(); 
-
     }
 
 }

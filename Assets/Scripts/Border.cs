@@ -9,7 +9,7 @@ public class Border : MonoBehaviour
     {
         if (col.tag == "Word") {
             ChooseNumLives.numLives--;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            //SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿// credits from frog souls
+﻿// credits from Word dropper
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -9,7 +9,7 @@ public class Credits : MonoBehaviour
     {
         Score.CurrentScore = 0;
         ChooseNumLives.numLives = 5;
-        Name.username = "Traveller";
+        Name.username = "Wordman";
         SceneManager.LoadScene("Menu");
     }
 
@@ -21,6 +21,11 @@ public class Credits : MonoBehaviour
         #endif
 
         Application.Quit();
+    }
+
+    public void DeleteAll()
+    {
+        PlayerPrefs.DeleteAll();
     }
 
 

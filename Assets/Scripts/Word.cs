@@ -26,7 +26,7 @@ public class Word {
 
 	public void TypeLetter ()
 	{
-		Score.CurrentScore++;
+		
 		typeIndex++;
 		display.RemoveLetter();
 	}
@@ -36,6 +36,7 @@ public class Word {
 		bool wordTyped = (typeIndex >= word.Length);
 		if (wordTyped)
 		{
+			Score.CurrentScore++;
 			display.RemoveWord();
 		}
 		return wordTyped;
