@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class WordDisplay : MonoBehaviour {
 
 	public Text text;
-	private float fallSpeed = 0.5f * ChangeSpeed.gameSpeed;
+	private float fallSpeed = 2f * (ChangeSpeed.gameSpeed / 2.5f);
 	public float delay = 20.5f;
 
 	public Rigidbody2D rb;
@@ -37,7 +37,7 @@ public class WordDisplay : MonoBehaviour {
 		rb.MovePosition(rb.position + fallSpeed * Time.deltaTime);
 		*/
 
-		Invoke("RemoveWord", 12.0f);
+		Invoke("RemoveWord", 15.0f);
 	}
 
 }
